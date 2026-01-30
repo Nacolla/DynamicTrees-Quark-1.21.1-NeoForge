@@ -3,7 +3,7 @@
     "only_if_loaded": "dynamictreesplus",
     "select": { "name": "quark:glimmering_weald" },
     "cancellers": {
-      "type": "dtquark:mushroom",
+      "type": "dynamictrees:fungus",
       "namespaces": ["minecraft", "quark"],
       "stage": "UNDERGROUND_DECORATION"
     }

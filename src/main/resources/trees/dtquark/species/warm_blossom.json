@@ -10,7 +10,7 @@
   "generate_seed": true,
   "generate_sapling": true,
   "world_gen_acceptable_soils": ["sand_like", "snow_like"],
-  "environment_factors" : {
+  "preferred_climate" : {
     "#c:is_wet": 0.75
   },
   "perfect_biomes": { "types": [ "forest", "overworld" ] },
