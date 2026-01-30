@@ -1,0 +1,10 @@
+{
+  "block_registry_name": "ancient_fruit",
+  "item_stack": "quark:ancient_fruit",
+  "block_shapes": [
+    "dtquark:ancient_fruit_age0",
+    "dtquark:ancient_fruit_age1",
+    "dtquark:ancient_fruit_age2",
+    "dtquark:ancient_fruit_age3"
+  ]
+}

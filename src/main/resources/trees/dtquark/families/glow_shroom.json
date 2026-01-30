@@ -1,0 +1,13 @@
+{
+  "only_if_loaded": "dynamictreesplus",
+  "type": "dynamictreesplus:mushroom",
+  "common_cap": "dtquark:glow_shroom",
+  "common_species": "dtquark:glow_shroom",
+  "primitive_log": "quark:glow_shroom_stem",
+  "stick": "air",
+  "generate_stripped_branch": false,
+  "texture_overrides": {
+    "branch": "quark:block/glow_shroom_stem",
+    "branch_top": "quark:block/glow_shroom_block_inside"
+  }
+}

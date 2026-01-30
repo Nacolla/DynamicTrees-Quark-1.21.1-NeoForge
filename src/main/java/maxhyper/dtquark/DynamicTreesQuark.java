@@ -1,59 +1,84 @@
 package maxhyper.dtquark;
 
-import com.ferreusveritas.dynamictrees.api.GatherDataHelper;
-import com.ferreusveritas.dynamictrees.api.registry.RegistryHandler;
-import com.ferreusveritas.dynamictrees.blocks.leaves.LeavesProperties;
-import com.ferreusveritas.dynamictrees.blocks.rootyblocks.SoilProperties;
-import com.ferreusveritas.dynamictrees.resources.Resources;
-import com.ferreusveritas.dynamictrees.trees.Family;
-import com.ferreusveritas.dynamictrees.trees.Species;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import vazkii.quark.base.module.config.type.CompoundBiomeConfig;
-import vazkii.quark.content.world.config.BlossomTreeConfig;
-import vazkii.quark.content.world.module.BlossomTreesModule;
+import com.dtteam.dynamictrees.data.GatherDataHelper;
+import com.dtteam.dynamictrees.api.registry.RegistryHandler;
+import com.dtteam.dynamictrees.block.leaves.LeavesProperties;
+import com.dtteam.dynamictrees.block.soil.SoilProperties;
+import com.dtteam.dynamictrees.block.fruit.Fruit;
+import com.dtteam.dynamictrees.tree.family.Family;
+import com.dtteam.dynamictrees.tree.species.Species;
+import com.dtteam.dynamictreesplus.block.mushroom.CapProperties;
+import com.dtteam.dynamictrees.registry.NeoForgeRegistryHandler;
+import maxhyper.dtquark.loot.LootModifiers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import org.violetmoon.zeta.config.type.CompoundBiomeConfig;
+import org.violetmoon.quark.content.world.module.BlossomTreesModule;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(DynamicTreesQuark.MOD_ID)
-public class DynamicTreesQuark
-{
+public class DynamicTreesQuark {
     public static final String MOD_ID = "dtquark";
 
-    public DynamicTreesQuark() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public DynamicTreesQuark(IEventBus modEventBus) {
+        modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::commonSetup);
-        //modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::gatherData);
 
-        MinecraftForge.EVENT_BUS.register(this);
-
-        RegistryHandler.setup(MOD_ID);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        for (BlossomTreeConfig config : BlossomTreesModule.trees.values()){
-            config.biomeConfig = CompoundBiomeConfig.fromBiomeTypes(false);
+        if (ModList.get().isLoaded("dynamictreesplus")){
+            modEventBus.register(DTQuarkPlusRegistries.class);
         }
+
+
+        LootModifiers.register(modEventBus);
+
+        NeoForgeRegistryHandler.setup(MOD_ID, modEventBus);
+        DTQuarkRegistries.setup();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
+
     }
 
-    public void gatherData(final GatherDataEvent event) {
-        GatherDataHelper.gatherAllData(
-                MOD_ID,
-                event,
-                SoilProperties.REGISTRY,
-                Family.REGISTRY,
-                Species.REGISTRY,
-                LeavesProperties.REGISTRY
-        );
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        // DTQuarkRegistries.setup(); // Removed this line as per instruction
+    
+        for (BlossomTreesModule.BlossomTree tree : BlossomTreesModule.blossomTrees) {
+            tree.quarkConfig.biomeConfig = CompoundBiomeConfig.fromBiomeTags(false);
+        }
+    }
+    
+
+    private void gatherData(final GatherDataEvent event) {
+        if (ModList.get().isLoaded("dynamictreesplus")) {
+            GatherDataHelper.gatherAllData(MOD_ID, event,
+                    SoilProperties.REGISTRY,
+                    Family.REGISTRY,
+                    Species.REGISTRY,
+                    Fruit.REGISTRY,
+                    LeavesProperties.REGISTRY,
+                    CapProperties.REGISTRY);
+        } else {
+            GatherDataHelper.gatherAllData(MOD_ID, event,
+                    SoilProperties.REGISTRY,
+                    Family.REGISTRY,
+                    Species.REGISTRY,
+                    Fruit.REGISTRY,
+                    LeavesProperties.REGISTRY);
+        }
+    }
+
+    public static ResourceLocation location(final String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
 }

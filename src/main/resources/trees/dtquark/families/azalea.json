@@ -1,0 +1,13 @@
+{
+  "common_leaves": "azalea",
+  "common_species": "dynamictrees:azalea",
+  "primitive_log": "quark:azalea_log",
+  "primitive_stripped_log": "quark:stripped_azalea_log",
+  "max_branch_radius": 8,
+  "texture_overrides": {
+    "branch": "quark:block/azalea_log",
+    "branch_top": "quark:block/azalea_log_top",
+    "stripped_branch": "quark:block/stripped_azalea_log",
+    "stripped_branch_top": "quark:block/stripped_azalea_log_top"
+  }
+}
