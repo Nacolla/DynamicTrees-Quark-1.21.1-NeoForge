@@ -20,7 +20,7 @@
       "can_craft_seed_to_sapling": false
     }
   ],
-  "seasonal_offsets": 0,
+
   "inherit_fruiting_offset_to_fruits": true,
   "fruits": [
     "dtquark:ancient_fruit"

@@ -29,7 +29,7 @@
   },
   "primitive_sapling": "quark:glow_shroom",
   "sapling_shape": "dtquark:round_short_mushroom",
-  "acceptable_soils": ["fungus_like", "stone_like", "deepslate_like"],
+  "acceptable_soils": ["fungus_like", "stone_like"],
   "features" : [
   ]
 }
